@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CafeWebApplication.MenuItem>
+
+@{
+    ViewData["Title"] = "Позиції меню за типом";
+}
+
+<h1>Позиції меню за типом @ViewBag.ItemType</h1>
+
+<p>
+    @Html.ActionLink("Додати нову позицію меню", "Create", new { itemTypeId =@ViewBag.ItemTypeId})
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cafe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cafe.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemType.Type)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<div class="container">
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
+</div>
+@section scripts{
+    <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            $.get('/api/Chart/JsonData2', function(JsonData2) {
+                data = google.visualization.arrayToDataTable(JsonData2, false);
+                var option = {
+                    title: "Співвідношення кількості замовлень та позицій меню",
+                    is3D: true,
+                    pieHole: 0.4
+                };
+                chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                chart.draw(data, option);
+            })
+        }
+    </script>
+}

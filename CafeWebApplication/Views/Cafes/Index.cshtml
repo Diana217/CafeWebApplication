@@ -1,0 +1,78 @@
+﻿@model IEnumerable<CafeWebApplication.Cafe>
+
+@{
+    ViewData["Title"] = "Кав'ярні";
+}
+
+<h1>Кав'ярні</h1>
+
+<p>
+    <a asp-action="Create">Додати нову кав'ярню</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<div class="container">
+    <div id="barchart" style="width: 900px; height: 300px;"></div>
+</div>
+@section scripts{
+    <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            $.get('/api/Chart/JsonData1', function(JsonData1) {
+                data = google.visualization.arrayToDataTable(JsonData1, false);
+                var view = new google.visualization.DataView(data);
+                view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+                var option = {
+                    title: "Співвідношення кількості працівників та кав'ярень",
+                    width: 600,
+                    height: 400,
+                    bar: {groupWidth: "95%"},
+                    legend: { position: "none" }
+                };
+                chart = new google.visualization.BarChart(document.getElementById('barchart'));
+                chart.draw(view, option);
+            })
+        }
+    </script>
+}
+
+
