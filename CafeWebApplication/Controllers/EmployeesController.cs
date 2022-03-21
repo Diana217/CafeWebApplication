@@ -48,7 +48,7 @@ namespace CafeWebApplication.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Id");
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace CafeWebApplication.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Id", employee.CafeId);
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", employee.CafeId);
             return View(employee);
         }
 
@@ -82,7 +82,7 @@ namespace CafeWebApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Id", employee.CafeId);
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", employee.CafeId);
             return View(employee);
         }
 
@@ -118,7 +118,7 @@ namespace CafeWebApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Id", employee.CafeId);
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", employee.CafeId);
             return View(employee);
         }
 

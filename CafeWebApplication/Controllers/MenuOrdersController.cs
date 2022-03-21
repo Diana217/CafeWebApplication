@@ -20,9 +20,14 @@ namespace CafeWebApplication.Controllers
         }
 
         // GET: MenuOrders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var dB_CafeContext = _context.MenuOrders.Include(m => m.MenuItem).Include(m => m.Order);
+            if (id == null) return RedirectToAction("Orders", "Index");
+            //знаходження замовлень з меню за замовленнями
+            ViewBag.OrderId = id;
+
+            var dB_CafeContext = _context.MenuOrders.Where(m => m.OrderId == id).Include(m => m.Order).Include(m => m.MenuItem);
+            //var dB_CafeContext = _context.MenuOrders.Include(m => m.MenuItem).Include(m => m.Order);
             return View(await dB_CafeContext.ToListAsync());
         }
 
@@ -47,10 +52,11 @@ namespace CafeWebApplication.Controllers
         }
 
         // GET: MenuOrders/Create
-        public IActionResult Create()
+        public IActionResult Create(int orderId)
         {
             ViewData["MenuItemId"] = new SelectList(_context.MenuItems, "Id", "Name");
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id");
+            //ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id");
+            ViewBag.OrderId = orderId;
             return View();
         }
 
@@ -59,17 +65,20 @@ namespace CafeWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MenuItemId,OrderId,Amount")] MenuOrder menuOrder)
+        public async Task<IActionResult> Create(int orderId, [Bind("Id,MenuItemId,OrderId,Amount")] MenuOrder menuOrder)
         {
+            menuOrder.OrderId = orderId;
             if (ModelState.IsValid)
             {
                 _context.Add(menuOrder);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "MenuOrders", new { id = orderId });
             }
             ViewData["MenuItemId"] = new SelectList(_context.MenuItems, "Id", "Name", menuOrder.MenuItemId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id", menuOrder.OrderId);
-            return View(menuOrder);
+            //ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id", menuOrder.OrderId);
+            return RedirectToAction("Index", "MenuOrders", new { id = orderId });
+            //return View(menuOrder);
         }
 
         // GET: MenuOrders/Edit/5

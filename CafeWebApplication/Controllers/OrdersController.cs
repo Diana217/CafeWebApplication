@@ -43,13 +43,14 @@ namespace CafeWebApplication.Controllers
                 return NotFound();
             }
 
-            return View(order);
+            return RedirectToAction("Index", "MenuOrders", new { id = order.Id });
+            //return View(order);
         }
 
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["TableId"] = new SelectList(_context.Tables, "Id", "Id");
+            ViewData["TableId"] = new SelectList(_context.Tables, "Id", "Number");
             ViewData["WaiterId"] = new SelectList(_context.Employees, "Id", "Name");
             return View();
         }
@@ -67,7 +68,7 @@ namespace CafeWebApplication.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TableId"] = new SelectList(_context.Tables, "Id", "Id", order.TableId);
+            ViewData["TableId"] = new SelectList(_context.Tables, "Id", "Number", order.TableId);
             ViewData["WaiterId"] = new SelectList(_context.Employees, "Id", "Name", order.WaiterId);
             return View(order);
         }
@@ -85,7 +86,7 @@ namespace CafeWebApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["TableId"] = new SelectList(_context.Tables, "Id", "Id", order.TableId);
+            ViewData["TableId"] = new SelectList(_context.Tables, "Id", "Number", order.TableId);
             ViewData["WaiterId"] = new SelectList(_context.Employees, "Id", "Name", order.WaiterId);
             return View(order);
         }
@@ -122,7 +123,7 @@ namespace CafeWebApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TableId"] = new SelectList(_context.Tables, "Id", "Id", order.TableId);
+            ViewData["TableId"] = new SelectList(_context.Tables, "Id", "Number", order.TableId);
             ViewData["WaiterId"] = new SelectList(_context.Employees, "Id", "Name", order.WaiterId);
             return View(order);
         }

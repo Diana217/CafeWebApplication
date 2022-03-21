@@ -7,7 +7,7 @@
 <h1>Замовлення з меню</h1>
 
 <p>
-    <a asp-action="Create">Додати нове замовлення з меню</a>
+    @Html.ActionLink("Додати нове замовлення з меню", "Create", new { orderId = @ViewBag.OrderId})
 </p>
 <table class="table">
     <thead>

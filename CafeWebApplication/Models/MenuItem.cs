@@ -12,7 +12,9 @@ namespace CafeWebApplication
         }
 
         public int Id { get; set; }
+        [Display(Name = "Кав'ярня")]
         public int CafeId { get; set; }
+        [Display(Name = "Тип позиції меню")]
         public int ItemTypeId { get; set; }
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Display(Name = "Назва позиції меню")]
@@ -23,11 +25,9 @@ namespace CafeWebApplication
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Display(Name = "Статус")]
         public bool Status { get; set; }
-        [Required(ErrorMessage = "Поле не повинно бути порожнім")]
-        [Display(Name = "Кав'ярня")]
 
+        [Display(Name = "Кав'ярня")]
         public virtual Cafe Cafe { get; set; } = null!;
-        [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Display(Name = "Тип позиції меню")]
         public virtual ItemType ItemType { get; set; } = null!;
         public virtual ICollection<MenuOrder> MenuOrders { get; set; }

@@ -12,6 +12,7 @@ namespace CafeWebApplication
         }
 
         public int Id { get; set; }
+        [Display(Name = "Кав'ярня")]
         public int CafeId { get; set; }
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Display(Name = "Тип працівника")]
@@ -27,9 +28,7 @@ namespace CafeWebApplication
         public DateTime DateOfEmployment { get; set; }
         [Display(Name = "Дата звільнення з роботи")]
         public DateTime? DateOfRelease { get; set; }
-        [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Display(Name = "Кав'ярня")]
-
         public virtual Cafe Cafe { get; set; } = null!;
         public virtual ICollection<Order> Orders { get; set; }
     }

@@ -57,7 +57,7 @@ namespace CafeWebApplication.Controllers
         // GET: MenuItems/Create
         public IActionResult Create(int itemTypeId)
         {
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Id"); 
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name"); 
             //ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Type");
             ViewBag.ItemTypeId = itemTypeId;
             ViewBag.ItemType = _context.ItemTypes.Where(c => c.Id == itemTypeId).FirstOrDefault().Type;
@@ -79,7 +79,7 @@ namespace CafeWebApplication.Controllers
                 //return RedirectToAction(nameof(Index));
                 return RedirectToAction("Index", "MenuItems", new { id = itemTypeId, name = _context.ItemTypes.Where(c => c.Id == itemTypeId).FirstOrDefault().Type });
             }
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Id", menuItem.CafeId); //Address
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", menuItem.CafeId); //Address
             //ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Type", menuItem.ItemTypeId);
             //return View(menuItem);
             return RedirectToAction("Index", "MenuItems", new { id = itemTypeId, name = _context.ItemTypes.Where(c => c.Id == itemTypeId).FirstOrDefault().Type });
@@ -98,7 +98,7 @@ namespace CafeWebApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Id", menuItem.CafeId); //Address
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", menuItem.CafeId); //Address
             ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Type", menuItem.ItemTypeId);
             return View(menuItem);
         }
@@ -135,7 +135,7 @@ namespace CafeWebApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Id", menuItem.CafeId); //Address
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", menuItem.CafeId); //Address
             ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Type", menuItem.ItemTypeId);
             return View(menuItem);
         }

@@ -57,7 +57,7 @@ namespace CafeWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CafeId,Status")] Table table)
+        public async Task<IActionResult> Create([Bind("Id,CafeId,Status,Number")] Table table)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace CafeWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CafeId,Status")] Table table)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CafeId,Status,Number")] Table table)
         {
             if (id != table.Id)
             {
