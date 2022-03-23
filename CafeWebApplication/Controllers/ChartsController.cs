@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CafeWebApplication.Controllers
 {
@@ -21,7 +22,8 @@ namespace CafeWebApplication.Controllers
             typMenu.Add(new[] { "Тип позиції меню", "Кількість позицій меню" });
             foreach(var t in types)
             {
-                typMenu.Add(new object[] {t.Type, t.MenuItems.Count()});
+                var menu = _context.MenuItems.Where(menu => menu.ItemTypeId == t.Id).ToList();
+                typMenu.Add(new object[] {t.Type, menu.Count()});
             }
             return new JsonResult(typMenu);
         }
@@ -34,7 +36,8 @@ namespace CafeWebApplication.Controllers
             cafEmployee.Add(new[] { "Кав'ярня", "Кількість працівників" });
             foreach (var c in cafes)
             {
-                cafEmployee.Add(new object[] { c.Name, c.Employees.Count() });
+                var employee = _context.Employees.Where(emp => emp.CafeId == c.Id).ToList();
+                cafEmployee.Add(new object[] { c.Name, employee.Count() });
             }
             return new JsonResult(cafEmployee);
         }
@@ -45,9 +48,10 @@ namespace CafeWebApplication.Controllers
             var menuItems = _context.MenuItems.ToList();
             List<object> menuOrder = new List<object>();
             menuOrder.Add(new[] { "Позиція меню", "Кількість замовлень" });
-            foreach (var c in menuItems)
+            foreach (var m in menuItems)
             {
-                menuOrder.Add(new object[] { c.Name, c.MenuOrders.Count() });
+                var order = _context.MenuOrders.Where(ord => ord.MenuItemId == m.Id).ToList();
+                menuOrder.Add(new object[] { m.Name, order.Count() });
             }
             return new JsonResult(menuOrder);
         }

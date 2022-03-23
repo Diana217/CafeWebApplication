@@ -9,6 +9,27 @@
 <p>
     <a asp-action="Create">Додати новий тип позиції меню</a>
 </p>
+
+<div>
+    <h3>Оберіть excel-файл для завантаження</h3>
+    @using (Html.BeginForm("Import", "ItemTypes", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
+    {
+        <div>
+            Завантажте Excel-файл:
+            <input type="file" name="fileExcel" id="fileExcel" />
+            <div>
+                <input type="submit" value="Завантажити" />
+            </div>
+        </div>
+    }
+</div>
+
+<div>
+    <h3>Завантаження інформації в файл</h3>
+    <a asp-action="Export" >Завантажити</a>
+</div>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -36,7 +57,7 @@
 
 
 <div class="container">
-    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+    <div id="piechart_3d" style="width: 900px; height: 600px;"></div>
 </div>
 @section scripts{
     <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -46,10 +67,10 @@
 
         function drawChart() {
 
-            $.get('/api/Chart/JsonData', function(JsonData) {
+            $.get('/api/Charts/JsonData', function(JsonData) {
                 data = google.visualization.arrayToDataTable(JsonData, false);
                 var option = {
-                    title: "Співвідношення кількості позицій меню та типів",
+                    title: "Співвідношення типів та кількості позицій меню",
                     is3D: true
                 };
                 chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
@@ -58,3 +79,4 @@
         }
     </script>
 }
+

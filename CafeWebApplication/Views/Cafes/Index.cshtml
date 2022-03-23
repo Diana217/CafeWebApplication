@@ -42,7 +42,7 @@
 
 
 <div class="container">
-    <div id="barchart" style="width: 900px; height: 300px;"></div>
+    <div id="donutchart" style="width: 900px; height: 700px;"></div>
 </div>
 @section scripts{
     <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -52,27 +52,18 @@
 
         function drawChart() {
 
-            $.get('/api/Chart/JsonData1', function(JsonData1) {
+            $.get('/api/Charts/JsonData1', function(JsonData1) {
                 data = google.visualization.arrayToDataTable(JsonData1, false);
-                var view = new google.visualization.DataView(data);
-                view.setColumns([0, 1,
-                       { calc: "stringify",
-                         sourceColumn: 1,
-                         type: "string",
-                         role: "annotation" },
-                       2]);
                 var option = {
-                    title: "Співвідношення кількості працівників та кав'ярень",
-                    width: 600,
-                    height: 400,
-                    bar: {groupWidth: "95%"},
-                    legend: { position: "none" }
+                    title: "Співвідношення кав'ярень та кількості працівників",
+                    pieHole: 0.4
                 };
-                chart = new google.visualization.BarChart(document.getElementById('barchart'));
-                chart.draw(view, option);
+                chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                chart.draw(data, option);
             })
         }
     </script>
 }
+
 
 
