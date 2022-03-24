@@ -315,7 +315,6 @@ namespace CafeWebApplication.Controllers
                         var cafe = _context.Cafes.Where(c => c.Id == item.CafeId).ToList();
 
                         RunProperties runHeaderProperties = runName.AppendChild(new RunProperties(new Bold()));
-                        RunProperties runProperties = runName.AppendChild(new RunProperties(new Italic()));
 
                         runName.AppendChild(new Text($"Назва:    		                {item.Name}"));
                         itemName.Append(runName);
@@ -349,7 +348,7 @@ namespace CafeWebApplication.Controllers
                             }
                         }
 
-                        run.AppendChild(new Text("------------------------------------------------------------------------------------------------------------------------------------------"));
+                        run.AppendChild(new Text("***************************************************************************************"));
                         paragraph.Append(run);
                         body.Append(paragraph);
                     }
