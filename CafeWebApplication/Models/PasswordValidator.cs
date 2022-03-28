@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
+
 namespace CafeWebApplication.Models
 {
     public class PasswordValidator : IPasswordValidator<User>

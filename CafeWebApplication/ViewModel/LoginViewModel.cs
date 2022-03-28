@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 namespace CafeWebApplication.ViewModel
 {
     public class LoginViewModel
