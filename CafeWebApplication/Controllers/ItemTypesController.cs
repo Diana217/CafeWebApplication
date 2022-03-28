@@ -11,9 +11,11 @@ using ClosedXML.Excel;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CafeWebApplication.Controllers
 {
+    [Authorize(Roles ="admin, user")]
     public class ItemTypesController : Controller
     {
         private readonly DB_CafeContext _context;
