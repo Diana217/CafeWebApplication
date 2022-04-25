@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CafeWebApplication.Controllers
 {
-    [Authorize(Roles = "admin, user")]
+    [Authorize(Roles = "admin")]
     public class CafesController : Controller
     {
         private readonly DB_CafeContext _context;

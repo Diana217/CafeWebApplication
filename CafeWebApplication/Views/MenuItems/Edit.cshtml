@@ -4,9 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h3>Змінити інформацію про позицію меню "@Model.Name"</h3>
 
-<h4>MenuItem</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,18 +18,13 @@
                 <span asp-validation-for="CafeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ItemTypeId" class="control-label"></label>
-                <select asp-for="ItemTypeId" class="form-control" asp-items="ViewBag.ItemTypeId"></select>
-                <span asp-validation-for="ItemTypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+                <input asp-for="Price" class="form-control"/>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -38,15 +32,18 @@
                     <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
                 </label>
             </div>
+
+            <input type="hidden" value="@ViewBag.ItemTypeId" name="ItemTypeId" />
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Назад", "Index", new {id = @ViewBag.ItemTypeId})
 </div>
 
 @section Scripts {

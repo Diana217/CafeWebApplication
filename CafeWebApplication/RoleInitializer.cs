@@ -16,7 +16,6 @@ namespace CafeWebApplication
             if (await roleManager.FindByNameAsync("user") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("user"));
-
             }
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {

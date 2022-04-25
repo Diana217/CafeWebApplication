@@ -90,7 +90,10 @@ namespace CafeWebApplication.Controllers
                 return NotFound();
             }
             ViewData["MenuItemId"] = new SelectList(_context.MenuItems, "Id", "Name", menuOrder.MenuItemId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id", menuOrder.OrderId);
+
+            //ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id", menuOrder.OrderId);
+            ViewBag.OrderId = menuOrder.OrderId;
+
             return View(menuOrder);
         }
 
@@ -124,11 +127,14 @@ namespace CafeWebApplication.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "MenuOrders", new { id = menuOrder.MenuItemId });
             }
             ViewData["MenuItemId"] = new SelectList(_context.MenuItems, "Id", "Name", menuOrder.MenuItemId);
-            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id", menuOrder.OrderId);
-            return View(menuOrder);
+            //ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "Id", menuOrder.OrderId);
+            
+            return RedirectToAction("Index", "MenuOrders", new { id = menuOrder.MenuItemId });
+            //return View(menuOrder);
         }
 
         // GET: MenuOrders/Delete/5
@@ -159,7 +165,9 @@ namespace CafeWebApplication.Controllers
             var menuOrder = await _context.MenuOrders.FindAsync(id);
             _context.MenuOrders.Remove(menuOrder);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction("Index", "MenuOrders", new { id = menuOrder.MenuItemId });
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool MenuOrderExists(int id)

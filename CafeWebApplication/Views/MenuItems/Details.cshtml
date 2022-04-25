@@ -4,10 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h3>Деталі про позицію меню "@Model.Name"</h3>
 
 <div>
-    <h4>MenuItem</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -42,7 +41,17 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Змінити</a> <br />
+        <a asp-action="Index" asp-route-id="@Model?.ItemTypeId">Назад</a>
+    </div>
+}
+else
+{
+    <div>
+       <a asp-action="Index" asp-route-id="@Model?.ItemTypeId">Назад</a>
+    </div>
+}

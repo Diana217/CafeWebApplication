@@ -6,7 +6,6 @@
 
 <h1>Додавання замовлення з меню</h1>
 
-<h4>MenuOrder</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -25,14 +24,14 @@
             <input type="hidden" value="@ViewBag.OrderId" name="OrderId" />
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Додати" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Назад", "Index", new { id =@ViewBag.OrderId})
 </div>
 
 @section Scripts {

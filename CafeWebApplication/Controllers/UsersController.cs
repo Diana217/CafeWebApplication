@@ -27,7 +27,7 @@ namespace CafeWebApplication.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("UserList", "Roles");
                 }
                 else
                 {
@@ -57,7 +57,7 @@ namespace CafeWebApplication.Controllers
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByIdAsync(model.Id);
-                if (user!=null)
+                if (user != null)
                 {
                     user.Email = model.Email;
                     user.UserName = model.Email;
@@ -66,7 +66,7 @@ namespace CafeWebApplication.Controllers
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("UserList", "Roles");
                     }
                     else
                     {
@@ -79,16 +79,51 @@ namespace CafeWebApplication.Controllers
             }
             return View(model);
         }
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            User user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(DeleteUserViewModel model)
         {
-            User user = await _userManager.FindByIdAsync(id);
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                IdentityResult result = await _userManager.DeleteAsync(user);
+                User user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    user.Email = model.Email;
+                    user.UserName = model.Email;
+                    user.Year = model.Year;
+
+                    IdentityResult result = await _userManager.DeleteAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("UserList", "Roles");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Користувача не знайдено");
+                }
             }
-            return RedirectToAction("Index");
+            return View(model);
         }
 
         public async Task<IActionResult> ChangePassword(string id)
@@ -114,7 +149,7 @@ namespace CafeWebApplication.Controllers
                         await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("UserList", "Roles");
                     }
                     else
                     {

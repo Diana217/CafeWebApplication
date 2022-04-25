@@ -10,6 +10,7 @@ namespace CafeWebApplication.ViewModel
         public string Email { get; set; }
 
         [Required]
+        [Range(1900, 2022, ErrorMessage = "Введіть дійсний рік народження.")]
         [Display(Name = "Рік народження")]
         public int Year { get; set; }
 

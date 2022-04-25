@@ -1,15 +1,40 @@
 ﻿@model IEnumerable<CafeWebApplication.Models.User>
 
-<h2>Список користувачів з правами доступу</h2>
+<h2>Список користувачів</h2>
+
+<a asp-controller="Users" asp-action="Create">Додати користувача</a>
+<br />
+
 <table class="table">
+    <tr>
+        <th>Email</th>
+        <th>Рік</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
     @foreach(var user in Model)
     {
         <tr>
             <td>@user.Email</td>
+            <td>@user.Year</td>
             <td>
                 <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@user.Id">Права доступу</a>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Змінити</a>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-controller="Users" asp-action="ChangePassword" asp-route-id="@user.Id">Змінити пароль</a>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-danger" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Видалити</a>
             </td>
         </tr>
     }
 </table>
 
+<a asp-action="Index">Список ролей</a><br />
+
+<a asp-controller="Home" asp-action="Index">Назад</a>

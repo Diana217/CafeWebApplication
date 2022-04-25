@@ -74,7 +74,7 @@ namespace CafeWebApplication.Controllers
                 //return RedirectToAction(nameof(Index));
                 return RedirectToAction("Index", "MenuItems", new { id = itemTypeId, name = _context.ItemTypes.Where(c => c.Id == itemTypeId).FirstOrDefault().Type });
             }
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", menuItem.CafeId); //Address
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", menuItem.CafeId); 
             //ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Type", menuItem.ItemTypeId);
             //return View(menuItem);
             return RedirectToAction("Index", "MenuItems", new { id = itemTypeId, name = _context.ItemTypes.Where(c => c.Id == itemTypeId).FirstOrDefault().Type });
@@ -93,8 +93,12 @@ namespace CafeWebApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", menuItem.CafeId); //Address
-            ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Type", menuItem.ItemTypeId);
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", menuItem.CafeId);
+
+            //ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Type", menuItem.ItemTypeId);
+            ViewBag.ItemTypeId = menuItem.ItemTypeId;
+            ViewBag.ItemType = _context.ItemTypes.Where(c => c.Id == menuItem.ItemTypeId).FirstOrDefault().Type;
+
             return View(menuItem);
         }
 
@@ -128,11 +132,14 @@ namespace CafeWebApplication.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "MenuItems", new { id = menuItem.ItemTypeId, name = _context.ItemTypes.Where(c => c.Id == menuItem.ItemTypeId).FirstOrDefault().Type });
+                //return RedirectToAction(nameof(Index));
             }
-            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", menuItem.CafeId); //Address
-            ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Type", menuItem.ItemTypeId);
-            return View(menuItem);
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Name", menuItem.CafeId);
+            //ViewData["ItemTypeId"] = new SelectList(_context.ItemTypes, "Id", "Type", menuItem.ItemTypeId);
+
+            return RedirectToAction("Index", "MenuItems", new { id = menuItem.ItemTypeId, name = _context.ItemTypes.Where(c => c.Id == menuItem.ItemTypeId).FirstOrDefault().Type });
+            //return View(menuItem);
         }
 
         // GET: MenuItems/Delete/5
@@ -142,11 +149,10 @@ namespace CafeWebApplication.Controllers
             {
                 return NotFound();
             }
-
             var menuItem = await _context.MenuItems
-                .Include(m => m.Cafe)
-                .Include(m => m.ItemType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                 .Include(m => m.Cafe)
+                 .Include(m => m.ItemType)
+                 .FirstOrDefaultAsync(m => m.Id == id);
             if (menuItem == null)
             {
                 return NotFound();
@@ -163,7 +169,8 @@ namespace CafeWebApplication.Controllers
             var menuItem = await _context.MenuItems.FindAsync(id);
             _context.MenuItems.Remove(menuItem);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "MenuItems", new { id = menuItem.ItemTypeId, name = _context.ItemTypes.Where(c => c.Id == menuItem.ItemTypeId).FirstOrDefault().Type });
         }
 
         private bool MenuItemExists(int id)

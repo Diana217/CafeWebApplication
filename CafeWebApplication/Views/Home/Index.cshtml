@@ -4,16 +4,15 @@
 
 @if(User.Identity.IsAuthenticated)
 {
-    <p>@User.Identity.Name</p>
-
-    <a asp-controller="Users" asp-action="Index">Список користувачів</a>
-
+    <h3>Ласкаво просимо до кав'ярні!</h3>
+    <p>@User.Identity.Name</p><br>
+    <img src="~/css/coffee.jpg" alt="кава"> <br />
+    
     <form method="post" asp-controller="Account" asp-action="Logout">
-        <input type="submit" value="Вихід" />
+        <br /><input type="submit" value="Вихід" />
     </form>
 }
 else
 {
     <a asp-controller="Account" asp-action="Login">Вхід</a>
-    <a asp-controller="Account" asp-action="Register">Реєстрація</a>
 }

@@ -10,6 +10,7 @@ namespace CafeWebApplication
         }
 
         public int Id { get; set; }
+
         [Required(ErrorMessage ="Поле не повинно бути порожнім")]
         [Display(Name = "Тип позиції меню")]
         public string Type { get; set; } = null!;

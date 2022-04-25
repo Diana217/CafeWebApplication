@@ -6,6 +6,8 @@
 
 <h1>Замовлення</h1>
 
+@if (User.Identity.IsAuthenticated && User.IsInRole("user"))
+{
 <p>
     <a asp-action="Create">Додати нове замовлення</a>
 </p>
@@ -37,11 +39,49 @@
                 @Html.DisplayFor(modelItem => item.Waiter.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Змінити</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+}
+else
+{
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Table)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Waiter)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Table.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Waiter.Name)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Деталі</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+}

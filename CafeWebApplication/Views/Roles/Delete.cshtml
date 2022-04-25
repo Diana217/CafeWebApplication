@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model CafeWebApplication.Models.Role
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h3>Ви справді хочете видалити роль?</h3>
+
+ <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Видалити" class="btn btn-danger" /> <br />
+        <a asp-controller="Roles" asp-action="Index">Назад</a>
+ </form>
+

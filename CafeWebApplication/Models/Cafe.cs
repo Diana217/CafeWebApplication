@@ -12,9 +12,11 @@ namespace CafeWebApplication
         }
 
         public int Id { get; set; }
+
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Display(Name = "Назва кав'ярні")]
         public string Name { get; set; } = null!;
+
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Display(Name = "Адреса")]
         public string Address { get; set; } = null!;

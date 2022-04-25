@@ -6,64 +6,120 @@
 
 <h1>Позиції меню за типом @ViewBag.ItemType</h1>
 
-<p>
-    @Html.ActionLink("Додати нову позицію меню", "Create", new { itemTypeId =@ViewBag.ItemTypeId})
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cafe)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ItemType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cafe.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ItemType.Type)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+{
+    <p>
+        @Html.ActionLink("Додати нову позицію меню", "Create", new { itemTypeId =@ViewBag.ItemTypeId})
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cafe)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemType)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cafe.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemType.Type)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Змінити</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
-
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cafe)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemType)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cafe.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemType.Type)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Деталі</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<div>
+    <a asp-controller="ItemTypes" asp-action="Index">Назад</a>
+</div>
 
 <div class="container">
-    <div id="slicechart" style="width: 1000px; height: 800px;"></div>
+    <div id="columnchart"></div>
 </div>
 @section scripts{
-    <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
     google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.setOnLoadCallback(drawChart);
@@ -73,19 +129,13 @@
             $.get('/api/Charts/JsonData2', function(JsonData2) {
                 data = google.visualization.arrayToDataTable(JsonData2, false);
                 var option = {
-                    legend: 'none',
-                    pieSliceText: 'label',
-                    title: 'Співвідношення позицій меню та кількості замовлень',
-                    slices: {  4: {offset: 0.2},
-                               6: {offset: 0.3},
-                               8: {offset: 0.4},
-                               9: {offset: 0.5},
-                    },
+                    title: "Співвідношення позицій меню та кількості замовлень",
+                    width: 1350,
+                    height: 700
                 };
-                chart = new google.visualization.PieChart(document.getElementById('slicechart'));
+                chart = new google.visualization.ColumnChart(document.getElementById('columnchart'));
                 chart.draw(data, option);
             })
         }
-    </script>
+</script>
 }
-

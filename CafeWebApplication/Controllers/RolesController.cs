@@ -17,6 +17,7 @@ namespace CafeWebApplication.Controllers
         }
         public IActionResult Index() => View(_roleManager.Roles.ToList());
         public IActionResult UserList() => View(_userManager.Users.ToList());
+
         public async Task<IActionResult> Edit(string userId)
         {
             // отримуємо користувача
@@ -61,6 +62,50 @@ namespace CafeWebApplication.Controllers
                 return RedirectToAction("UserList");
             }
             return NotFound();
+        }
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            IdentityRole role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return NotFound();
+            }
+            return View(role);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteRoleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityRole role = await _roleManager.FindByIdAsync(model.Id);
+                if (role != null)
+                {
+                    role.Name = model.RoleName;
+
+                    IdentityResult result = await _roleManager.DeleteAsync(role);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Roles");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Роль не знайдено");
+                }
+            }
+            return View(model);
         }
     }
 }
