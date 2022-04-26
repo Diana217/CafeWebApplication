@@ -49,7 +49,10 @@ namespace CafeWebApplication.Controllers
             foreach (var m in menuItems)
             {
                 var order = _context.MenuOrders.Where(ord => ord.MenuItemId == m.Id).ToList();
-                menuOrder.Add(new object[] { m.Name, order.Count() });
+                if(order.Count() > 0)
+                {
+                    menuOrder.Add(new object[] { m.Name, order.Count() });
+                }
             }
             return new JsonResult(menuOrder);
         }
