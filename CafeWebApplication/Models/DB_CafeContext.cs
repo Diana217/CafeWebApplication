@@ -26,7 +26,7 @@ namespace CafeWebApplication
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server= DESKTOP-J8EAKAU\\SQLEXPRESS; Database=DB_Cafe; Trusted_Connection=True; ");
+                optionsBuilder.UseSqlServer("Server= DESKTOP-H9T34QQ\\SQLEXPRESS01; Database=DB_Cafe; Trusted_Connection=True; ");
             }
         }
 
@@ -61,7 +61,7 @@ namespace CafeWebApplication
                 entity.HasOne(d => d.Cafe)
                     .WithMany(p => p.Employees)
                     .HasForeignKey(d => d.CafeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Employees_Cafes");
             });
 
@@ -83,13 +83,13 @@ namespace CafeWebApplication
                 entity.HasOne(d => d.Cafe)
                     .WithMany(p => p.MenuItems)
                     .HasForeignKey(d => d.CafeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_MenuItems_Cafes");
 
                 entity.HasOne(d => d.ItemType)
                     .WithMany(p => p.MenuItems)
                     .HasForeignKey(d => d.ItemTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_MenuItems_ItemTypes");
             });
 
@@ -98,13 +98,13 @@ namespace CafeWebApplication
                 entity.HasOne(d => d.MenuItem)
                     .WithMany(p => p.MenuOrders)
                     .HasForeignKey(d => d.MenuItemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_MenuOrders_MenuItems");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.MenuOrders)
                     .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_MenuOrders_Orders");
             });
 
@@ -115,13 +115,13 @@ namespace CafeWebApplication
                 entity.HasOne(d => d.Table)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.TableId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Orders_Tables");
 
                 entity.HasOne(d => d.Waiter)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.WaiterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Orders_Employees");
             });
 
@@ -130,7 +130,7 @@ namespace CafeWebApplication
                 entity.HasOne(d => d.Cafe)
                     .WithMany(p => p.Tables)
                     .HasForeignKey(d => d.CafeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Tables_Cafes");
             });
 

@@ -26,7 +26,8 @@ namespace CafeWebApplication.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                throw new ArgumentNullException();
+                //return NotFound();
             }
 
             var cafe = await _context.Cafes
