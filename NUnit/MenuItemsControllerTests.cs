@@ -30,25 +30,17 @@ namespace NUnit
         }
 
         [Test]
-        public async Task Index_ReturnsAViewResult_WithAListOfMenuItems()
+        [TestCase(1, "Dessert", true, TestName = "Test1")]
+        [TestCase(2, "Drink", true, TestName = "Test2")]
+        [TestCase(1, "", false, TestName = "Test3")]
+        [TestCase(0, "Dessert", false, TestName = "Test4")]
+        public async Task Index_ReturnsAViewResult_WithAListOfMenuItems(int menuId, string searchTerm, bool expectedResult)
         {
-            // Arrange
-            var testCases = new List<(int, string, bool)>
-            {
-                (1, "Dessert", true),
-                (2, "Drink", true),
-                (1, "", false),
-                (0, "Dessert", false)
-            };
+            // Act
+            var result = await _controller.Index(menuId, searchTerm);
 
-            foreach (var testCase in testCases)
-            {
-                // Act
-                var result = await _controller.Index(testCase.Item1, testCase.Item2);
-
-                // Assert
-                Assert.IsInstanceOf<ViewResult>(result);
-            }
+            // Assert
+            Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
