@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NUnit
 {
     [TestFixture]
+    [Category("CafeTests")]
     public class TablesControllerTests
     {
         private DB_CafeContext _context;

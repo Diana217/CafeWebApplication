@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 namespace NUnit
 {
     [TestFixture]
+    [Category("ParallelTests")]
+    [Parallelizable]
     public class CafesControllerTests
     {
         private DB_CafeContext _context;

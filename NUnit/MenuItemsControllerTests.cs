@@ -7,6 +7,7 @@ using System.Linq;
 namespace NUnit
 {
     [TestFixture]
+    [Category("MenuTests")]
     public class MenuItemsControllerTests
     {
         private DB_CafeContext _context;
