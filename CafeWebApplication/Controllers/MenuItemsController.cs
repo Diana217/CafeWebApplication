@@ -12,7 +12,8 @@ namespace CafeWebApplication.Controllers
 
         public MenuItemsController(IDBContextFactory context)
         {
-            _context = context.CreateDbContext();
+            string _connectionString = "";
+            _context = context.CreateDbContext(_connectionString);
         }
 
         // GET: MenuItems

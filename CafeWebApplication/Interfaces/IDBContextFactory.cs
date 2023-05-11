@@ -8,6 +8,6 @@ namespace CafeWebApplication.Interfaces
 {
     public interface IDBContextFactory
     {
-        DB_CafeContext CreateDbContext();
+        DB_CafeContext CreateDbContext(string connectionString);
     }
 }

@@ -13,7 +13,8 @@ namespace CafeWebApplication.Controllers
 
         public CafesController(IDBContextFactory context)
         {
-            _context = context.CreateDbContext();
+            string _connectionString = "";
+            _context = context.CreateDbContext(_connectionString);
         }
 
         // GET: Cafes

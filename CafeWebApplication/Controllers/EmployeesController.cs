@@ -14,7 +14,8 @@ namespace CafeWebApplication.Controllers
 
         public EmployeesController(IDBContextFactory context)
         {
-            _context = context.CreateDbContext();
+            string _connectionString = "";
+            _context = context.CreateDbContext(_connectionString);
         }
 
         // GET: Employees

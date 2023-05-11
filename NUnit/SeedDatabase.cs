@@ -10,6 +10,7 @@ namespace NUnit
     {
         public DB_CafeContext _context;
         public Mock<IDBContextFactory> _contextFactoryMock;
+        public string _connectionString = "";
 
         public SeedDatabase()
         {
@@ -19,13 +20,13 @@ namespace NUnit
             _context = new DB_CafeContext(options);
 
             _contextFactoryMock = new Mock<IDBContextFactory>() { CallBase = true };
-            _contextFactoryMock.Setup(cf => cf.CreateDbContext()).Returns(_context);
+            _contextFactoryMock.Setup(cf => cf.CreateDbContext(_connectionString)).Returns(_context);
 
-            _contextFactoryMock.Object.CreateDbContext();
-            _contextFactoryMock.Object.CreateDbContext();
-            _contextFactoryMock.Verify(x => x.CreateDbContext(), Times.Exactly(2));
+            _contextFactoryMock.Object.CreateDbContext(_connectionString);
+            _contextFactoryMock.Object.CreateDbContext(_connectionString);
+            _contextFactoryMock.Verify(x => x.CreateDbContext(_connectionString), Times.Exactly(2));
 
-            //_contextFactoryMock.Setup(cf => cf.CreateDbContext()).Throws(new Exception("Test Exception"));
+            _contextFactoryMock.Setup(cf => cf.CreateDbContext(null)).Throws(new NullReferenceException("Test Exception"));
         }
 
         public void SeedDB()

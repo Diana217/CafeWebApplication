@@ -17,18 +17,11 @@ namespace NUnit
         {
             _connectionString = connectionString;
         }
-        public DB_CafeContext CreateDbContext()
+        public DB_CafeContext CreateDbContext(string connectionString)
         {
-            try
-            {
-                var optionsBuilder = new DbContextOptionsBuilder<DB_CafeContext>();
-                optionsBuilder.UseSqlServer(_connectionString);
-                return new DB_CafeContext(optionsBuilder.Options);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            var optionsBuilder = new DbContextOptionsBuilder<DB_CafeContext>();
+            optionsBuilder.UseSqlServer(connectionString);
+            return new DB_CafeContext(optionsBuilder.Options);
         }
     }
 }
