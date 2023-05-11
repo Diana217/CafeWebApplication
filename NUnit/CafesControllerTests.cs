@@ -1,7 +1,11 @@
 using CafeWebApplication.Controllers;
 using CafeWebApplication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Moq;
+using CafeWebApplication.Interfaces;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using NuGet.Protocol.Plugins;
 
 namespace NUnit
 {
@@ -11,6 +15,7 @@ namespace NUnit
     public class CafesControllerTests
     {
         private DB_CafeContext _context;
+        private Mock<IDBContextFactory> _contextFactoryMock;
         private CafesController _controller;
 
         [SetUp]
@@ -20,7 +25,10 @@ namespace NUnit
             seed.SeedDB();
 
             _context = seed._context;
-            _controller = new CafesController(_context);
+            _contextFactoryMock = seed._contextFactoryMock;
+
+            _contextFactoryMock.CallBase = false;
+            _controller = new CafesController(_contextFactoryMock.Object);
         }
 
         [TearDown]
@@ -40,7 +48,7 @@ namespace NUnit
             Assert.IsInstanceOf<ViewResult>(result);
             CollectionAssert.AllItemsAreNotNull(_context.Cafes);
         }
-
+        
         [Test]
         public async Task Details_ArgumentNullException_WhenIdIsNull()
         {

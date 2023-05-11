@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using CafeWebApplication.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,9 @@ namespace CafeWebApplication.Controllers
     {
         private readonly DB_CafeContext _context;
 
-        public MenuOrdersController(DB_CafeContext context)
+        public MenuOrdersController(IDBContextFactory context)
         {
-            _context = context;
+            _context = context.CreateDbContext();
         }
 
         // GET: MenuOrders

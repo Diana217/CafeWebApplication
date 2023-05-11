@@ -1,17 +1,31 @@
 ﻿using CafeWebApplication;
+using CafeWebApplication.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Moq;
+using System.Diagnostics;
 
 namespace NUnit
 {
     internal class SeedDatabase
     {
         public DB_CafeContext _context;
+        public Mock<IDBContextFactory> _contextFactoryMock;
+
         public SeedDatabase()
         {
             var options = new DbContextOptionsBuilder<DB_CafeContext>()
                .UseInMemoryDatabase(databaseName: "TestDatabase")
                .Options;
             _context = new DB_CafeContext(options);
+
+            _contextFactoryMock = new Mock<IDBContextFactory>() { CallBase = true };
+            _contextFactoryMock.Setup(cf => cf.CreateDbContext()).Returns(_context);
+
+            _contextFactoryMock.Object.CreateDbContext();
+            _contextFactoryMock.Object.CreateDbContext();
+            _contextFactoryMock.Verify(x => x.CreateDbContext(), Times.Exactly(2));
+
+            //_contextFactoryMock.Setup(cf => cf.CreateDbContext()).Throws(new Exception("Test Exception"));
         }
 
         public void SeedDB()
@@ -23,7 +37,7 @@ namespace NUnit
                 new Cafe {Id = 3, Name = "Cafe 3", Address = "Address 3"}
             };
             _context.Cafes.AddRange(cafes);
-
+            
             var itemTypes = new List<ItemType>
             {
                 new ItemType {Id = 1, Type = "Dessert"},
@@ -71,7 +85,7 @@ namespace NUnit
                 new MenuOrder {Id = 3, MenuItemId = 3, OrderId = 3, Amount = 1 }
             };
             _context.MenuOrders.AddRange(menuOrders);
-
+            
             _context.SaveChanges();
         }
     }

@@ -6,6 +6,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Authorization;
+using CafeWebApplication.Interfaces;
 
 namespace CafeWebApplication.Controllers
 {
@@ -14,9 +15,9 @@ namespace CafeWebApplication.Controllers
     {
         private readonly DB_CafeContext _context;
 
-        public ItemTypesController(DB_CafeContext context)
+        public ItemTypesController(IDBContextFactory context)
         {
-            _context = context;
+            _context = context.CreateDbContext();
         }
 
         // GET: ItemTypes

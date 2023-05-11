@@ -3,6 +3,8 @@ using CafeWebApplication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Moq;
+using CafeWebApplication.Interfaces;
 
 namespace NUnit
 {
@@ -11,8 +13,9 @@ namespace NUnit
     public class MenuOrdersControllerTests
     {
         private DB_CafeContext _context;
+        private Mock<IDBContextFactory> _contextFactoryMock;
         private MenuOrdersController _controller;
-
+        
         [SetUp]
         public void SetUp()
         {
@@ -20,7 +23,9 @@ namespace NUnit
             seed.SeedDB();
 
             _context = seed._context;
-            _controller = new MenuOrdersController(_context);
+            _contextFactoryMock = seed._contextFactoryMock;
+
+            _controller = new MenuOrdersController(_contextFactoryMock.Object);
         }
 
         [TearDown]

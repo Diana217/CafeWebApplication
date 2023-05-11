@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using CafeWebApplication.Interfaces;
 
 namespace CafeWebApplication.Controllers
 {
@@ -11,9 +12,9 @@ namespace CafeWebApplication.Controllers
     {
         private readonly DB_CafeContext _context;
 
-        public TablesController(DB_CafeContext context)
+        public TablesController(IDBContextFactory context)
         {
-            _context = context;
+            _context = context.CreateDbContext();
         }
 
         // GET: Tables

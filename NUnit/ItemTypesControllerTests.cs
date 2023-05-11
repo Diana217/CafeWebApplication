@@ -1,8 +1,10 @@
 ﻿using CafeWebApplication;
 using CafeWebApplication.Controllers;
+using CafeWebApplication.Interfaces;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace NUnit
 {
@@ -11,8 +13,9 @@ namespace NUnit
     public class ItemTypesControllerTests
     {
         private DB_CafeContext _context;
+        private Mock<IDBContextFactory> _contextFactoryMock;
         private ItemTypesController _controller;
-
+        
         [SetUp]
         public void SetUp()
         {
@@ -20,7 +23,9 @@ namespace NUnit
             seed.SeedDB();
 
             _context = seed._context;
-            _controller = new ItemTypesController(_context);
+            _contextFactoryMock = seed._contextFactoryMock;
+
+            _controller = new ItemTypesController(_contextFactoryMock.Object);
         }
 
         [TearDown]
